@@ -9,6 +9,7 @@ flake8 = "*"
 
 [packages]
 requests = "*"
+click = "*"
 
 [requires]
 python_version = "3.7"
