@@ -1,0 +1,22 @@
+version: "3"
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  memcached:
+    build:
+      context: .
+      dockerfile: ./docker/store/Dockerfile
+    networks:
+      - app-tier
+
+  cli:
+    build:
+      context: .
+      dockerfile: ./docker/cli/Dockerfile
+    volumes:
+      - .:/reddit_cli_app
+    networks:
+      - app-tier
