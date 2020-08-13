@@ -11,6 +11,8 @@ services:
       dockerfile: ./docker/store/Dockerfile
     networks:
       - app-tier
+    ports:
+       - 11211:11211
 
   cli:
     build:
