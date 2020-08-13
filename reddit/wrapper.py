@@ -25,9 +25,11 @@ class APIWrapper:
         pass
 
     def __str__(self):
-        return "<Wrapper response_format={} >".format(self.response_format)
+        return "<APIWrapper response_format={} >".format(self.response_format)
 
-    def make_request(self, url, method="get", headers=None, callback=None, **parms):
+    def make_request(
+        self, url, method="get", headers=None, callback=None, **parms
+    ):
         """Method to request an API call using Python's `requests` library;
 
         Args:
@@ -59,7 +61,9 @@ class APIWrapper:
     def _parse_response(response, response_format):
         """Parses API data to json;
 
-        We will be using Reddit's read-only JSON API, but it's good practice to ensure the response content is parsed correctly. In case the JSON decoding fails, `response.json()` raises an exception.
+        We will be using Reddit's read-only JSON API, but it's good practice to
+        ensure the response content is parsed correctly. In case the JSON
+        decoding fails, `response.json()` raises an exception.
 
         Args:
             response (Response): :class:`Response` object;
@@ -94,7 +98,7 @@ class APIWrapper:
                 A dictionary containing JSON data if no error exception is raised, otherwise returns :class:`Response` object;
             """
             try:
-                return Wrapper._parse_response(response, response_format)
+                return APIWrapper._parse_response(response, response_format)
             except (ValueError, SyntaxError) as ex:
                 response.parsed = None
                 return response
@@ -110,10 +114,12 @@ class APIWrapper:
                         and "ValidationErrors" in parsed_response
                     ):
                         messages = [
-                            e["Message"] for e in parsed_response["ValidationErrors"]
+                            e["Message"]
+                            for e in parsed_response["ValidationErrors"]
                         ]
                     error = requests.HTTPError(
-                        "%s: %s" % (error, "\n\t".join(messages)), response=response,
+                        "%s: %s" % (error, "\n\t".join(messages)),
+                        response=response,
                     )
             elif response.status_code == 429:
                 error = requests.HTTPError(
@@ -140,7 +146,9 @@ class APIWrapper:
             raise EmptyResponse("Response has no content.")
 
         try:
-            parsed_response = self._parse_response(response, self.response_format)
+            parsed_response = self._parse_response(
+                response, self.response_format
+            )
         except (ValueError, SyntaxError):
             raise ValueError(
                 "Invalid {} in response to {}".format(
