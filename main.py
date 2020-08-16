@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 import click
 
-from reddit.reddit import RedditAPI
+from cli.reddit import RedditAPI
 from utils.cache.backend.base import Cache
 from utils.helpers import *
 from utils.console.tables import *
@@ -13,8 +13,16 @@ cache = Cache()
 
 
 @click.command()
-@click.option("--subreddit", help="Reddit subreddit, e.g. popular")
-@click.option("--limit", default=75, help="Top posts list.")
+@click.option(
+    "--subreddit",
+    default="popular",
+    help="Subreddit to be fetched, e.g. 'popular'",
+)
+@click.option(
+    "--limit",
+    default=75,
+    help="The maximum number of items to return in the slice of the listing;",
+)
 def main(subreddit, limit):
     """Entry point of execution for cli;
 
@@ -23,7 +31,7 @@ def main(subreddit, limit):
         limit (int): max number of posts to return in the listing;
 
     Returns:
-        Should return a 'list' of top :parm:`limit` posts in the listing;
+        Should return an ordered 'list' of top :parm:`limit` posts in the listing;
     """
 
     # Vars
@@ -133,7 +141,7 @@ def main(subreddit, limit):
         cache.delete_many(no_loner_in_top_list)
         cache.replace("ids", payload_post_ids)
     else:
-        # Reset cache for post ids to have a fresh copy in memory
+        # Reset cache for post ids
         cache.set("ids", payload_post_ids)
 
     # [TABLE] Top list
@@ -141,7 +149,7 @@ def main(subreddit, limit):
     print(top_table, "\n")
 
     # [TABLE] Mutations
-    print(MUTATIONS_HEAD)
+    print(MUTATIONS_HEADING)
     print(vote_mutations_table, "\n")
 
 

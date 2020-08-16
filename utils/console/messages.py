@@ -1,6 +1,6 @@
 MESSAGE_ONE = ""
 
-MUTATIONS_HEAD = "Mutations since last program execution"
+MUTATIONS_HEADING = "Mutations since last program execution"
 
 
 def top_list_msg(limit):
