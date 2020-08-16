@@ -1,24 +1,17 @@
 version: "3"
 
-networks:
-  app-tier:
-    driver: bridge
-
 services:
   memcached:
     build:
       context: .
       dockerfile: ./docker/store/Dockerfile
-    networks:
-      - app-tier
     ports:
        - 11211:11211
-
   cli:
     build:
       context: .
       dockerfile: ./docker/cli/Dockerfile
     volumes:
       - .:/reddit_cli_app
-    networks:
-      - app-tier
+    ports:
+      - 8000:8000
