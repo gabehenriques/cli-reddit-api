@@ -1,16 +1,13 @@
 from reddit.wrapper import APIWrapper
+from utils.cache.backend.base import Cache
 
 
 class RedditAPI(APIWrapper):
-    """A simple class to interact with reddit public json api;
+    """A simple class to interact with the reddit public api;
 
     Attributes:
         subreddit (str): reddit community and posts associated with it;
     """
-
-    #
-    # def __init__(self, subreddit):
-    #     self.subreddit = subreddit
 
     def get_subreddit_top_posts(self, subreddit, limit=75):
         """
