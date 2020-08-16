@@ -1,26 +1,51 @@
-from pymemcache.client import base
+import json
+from pymemcache.client.base import Client
 
-HOST = "localhost"
-POST = 11212
+HOST = "memcached"
+# HOST = "localhost"
+POST = 11211
 
-OLD_CACHE = base.Client((HOST, POST), ignore_exc=True)
-NEW_CACHE = base.Client((HOST, POST))
+
+class JsonSerde:
+    """Serializer/Deserializer class;"""
+
+    def serialize(self, key, value):
+        if isinstance(value, str):
+            return value, 1
+        return json.dumps(value), 2
+
+    def deserialize(self, key, value, flags):
+        if flags == 1:
+            return value
+        if flags == 2:
+            return json.loads(value)
+        raise Exception("Unknown serialization format")
 
 
 class Cache:
-    """Simple cache backend wrapper using pymemcache;
+    """Simple cache backend wrapper using Pinterest's pymemcache;
 
     Attributes:
         client (Client): The client object for a single memcached server;
     """
 
     def __init__(self):
-        self.client = base.Client((HOST, POST))
+        self.client = Client((HOST, POST), serde=JsonSerde())
 
     def __repr__(self):
         return "<Cache {}>".format(self.client.server)
 
-    def set_to_cache(self, key, value):
+    def get_stats(self, *args):
+        """Runs the memcached `stats` command;
+
+        Args:
+            *arg (list): extra string arguments to the “stats” command;
+        Returns:
+            A dictionary of the returned stats;
+        """
+        return self.client.stats(args)
+
+    def set(self, key, value):
         """Cache setter;
 
         Args:
@@ -29,7 +54,16 @@ class Cache:
         """
         self.client.set(key, value)
 
-    def get_from_cache(self, key):
+    def set_multiple(self, value):
+        """A convenience function for setting multiple values;
+
+        Args:
+            key (str): unique identifier of pair;
+            value (str): value for the key;
+        """
+        self.client.set_multi(value)
+
+    def get(self, key):
         """Cache getter;
 
         Args:
@@ -41,9 +75,72 @@ class Cache:
         Raises:
             Exception if the key wasn’t found;
         """
-        result = self.client.get(key)
+        return self.client.get(key)
 
-        if result is None:
-            raise Exception("{} has no value in cache".format(key))
+    def add(self, key, value):
+        """Runs memcached “add” command;
 
-        return result
+        Store data, only if it does not already exist;
+
+        Args:
+            key (str): unique identifier of pair;
+            value (str): value for the key;
+        Returns:
+             return True if value was stored, False if it was not;
+        """
+
+        return self.client.add(key, value)
+
+    def replace(self, key, value):
+        """Runs memcached “replace” command;
+
+        Store data, but only if the data already exists;
+
+        Args:
+            key (str): unique identifier of pair;
+            value (str): value for the key;
+        Returns:
+             return True if value was stored, False if it was not;
+        """
+
+        return self.client.replace(key, value)
+
+    def append(self, key, value):
+        """Runs memcached append command;
+
+
+        Args:
+            key (str): unique identifier of pair;
+            value (str): value for the key;
+        Returns:
+             return True;
+        """
+
+        return self.client.append(key, value)
+
+    def prepend(self, key, value):
+        """Runs memcached “prepend” command;
+
+        Same as append, but adding new data before existing data;
+
+        Args:
+            key (str): unique identifier of pair;
+            value (str): value for the key;
+        Returns:
+             return True;
+        """
+
+        return self.client.prepend(key, value)
+
+    def delete(self, key):
+        """Runs memcached delete command;"""
+        return self.client.delete(key)
+
+    def delete_many(self, keys):
+        """A convenience function to delete multiple keys;"""
+        return self.client.delete_many(keys)
+
+        # if result is None:
+        #     raise Exception("{} has no value in cache".format(key))
+        #
+        # return result
