@@ -27,6 +27,11 @@ Download project files
 
     git clone git@github.com:henriquesgabriel/reddit-api-cli.git
 
+Switch to the repo folder
+
+.. code-block:: text
+
+    cd reddit-api-cli
 
 Build and install project dependencies
 
