@@ -3,7 +3,7 @@ Backend Engineering Exercise
 
 **Language**: Python3x
 
-**Frameworks**: No framework used
+**Frameworks**: None
 
 **Other tools / dependencies**:
 
@@ -18,8 +18,8 @@ Backend Engineering Exercise
 .. _prettytable: https://github.com/jazzband/prettytable
 
 
-Installing and running program with Docker
-------------------------------------------
+Installing and running with Docker
+----------------------------------
 
 Download and install project dependencies
 
@@ -48,3 +48,6 @@ Testing
 .. code-block:: text
 
     docker-compose run cli python -m unittest
+
+
+Feel free to reach out anytime if you have any questions.
