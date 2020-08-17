@@ -135,7 +135,7 @@ def main(subreddit, limit):
 
             no_longer_top_table.add_row([id, ups, title])
 
-        print(top_table, "\n")
+        print(no_longer_top_table, "\n")
 
         # Remove legacy posts and update cache
         cache.delete_many(no_loner_in_top_list)
