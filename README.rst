@@ -50,4 +50,6 @@ Testing
     docker-compose run cli python -m unittest
 
 
+**Note:** The program does not contain mocked data.
+
 Feel free to reach out anytime if you have any questions.
