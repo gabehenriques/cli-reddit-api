@@ -42,16 +42,6 @@ class TestApiWrapper(unittest.TestCase):
 
         self.assertTrue(default_callback.called)
 
-    def test_error_handling__should_call_safe_pasrse_method(self):
-        response_mock = self.response_mock
-        type(response_mock).status_code = PropertyMock(return_value=400)
-
-        error = HTTPError()
-        format = "json"
-
-        APIWrapper()._with_error_handling(response_mock, error, format)
-        # self.assertTrue(safe_parse_method.called)
-
     def tearDown(self):
         pass
 
