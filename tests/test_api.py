@@ -1,9 +1,5 @@
 import unittest
-from unittest.mock import patch, MagicMock, PropertyMock
-import pytest
-
 from cli.reddit import RedditAPI
-from requests.exceptions import MissingSchema, HTTPError, ConnectionError
 
 
 class TestApi(unittest.TestCase):
