@@ -21,7 +21,14 @@ Backend Engineering Exercise
 Installing and running with Docker
 ----------------------------------
 
-Download and install project dependencies
+Download project files
+
+.. code-block:: text
+
+    git clone git@github.com:henriquesgabriel/reddit-api-cli.git
+
+
+Build and install project dependencies
 
 .. code-block:: text
 
