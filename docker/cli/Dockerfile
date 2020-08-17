@@ -19,4 +19,4 @@ COPY . /reddit_cli_app
 
 EXPOSE 8000
 
-ENTRYPOINT ["python", "main.py"]
+# ENTRYPOINT ["python"]
