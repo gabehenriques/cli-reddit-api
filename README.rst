@@ -1,11 +1,9 @@
-Backend Engineering Exercise
-============================
+CLI for the Reddit JSON API
+===========================
 
-**Language**: Python3x
+**Language**: Python 3.7.8
 
-**Frameworks**: None
-
-**Other tools / dependencies**:
+**Tools**:
 
 - requests_ for HTTP requests
 - click_ for command-line tasks
@@ -62,6 +60,3 @@ Testing
     docker-compose run cli python -m unittest
 
 
-**Note:** The program does not contain mocked data.
-
-Feel free to reach out anytime if you have any questions.
