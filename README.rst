@@ -1,5 +1,5 @@
-CLI for the Reddit JSON API
-===========================
+CLI for interacting with the Reddit JSON API
+============================================
 
 **Language**: Python 3.7.8
 
